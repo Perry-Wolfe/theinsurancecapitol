@@ -5,6 +5,7 @@ Output: ./site (what gets deployed)
 """
 import os, shutil
 from html import escape
+from applications import APPLICATIONS, render_application, render_index
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, 'src')
@@ -23,6 +24,7 @@ NAV = [
     ('auto.html', '/auto', 'Auto'),
     ('home-insurance.html', '/home-insurance', 'Home &amp; renters'),
     ('commercial.html', '/commercial', 'Commercial'),
+    ('trucking.html', '/trucking', 'Trucking'),
     ('dealers.html', '/dealers', 'Dealers'),
     ('customer-service.html', '/customer-service', 'Customer service'),
     ('contact.html', '/contact', 'Contact'),
@@ -58,7 +60,7 @@ FOOTER = f'''<footer class="foot">
       </div>
       <div>
         <h3>Insurance</h3>
-        <ul><li><a href="/auto">Auto</a></li><li><a href="/home-insurance">Home and renters</a></li><li><a href="/commercial">Commercial</a></li></ul>
+        <ul><li><a href="/auto">Auto</a></li><li><a href="/home-insurance">Home and renters</a></li><li><a href="/commercial">Commercial</a></li><li><a href="/trucking">Commercial trucking</a></li><li><a href="/apply">Start an application</a></li></ul>
       </div>
       <div>
         <h3>Help</h3>
@@ -80,7 +82,7 @@ FOOTER = f'''<footer class="foot">
 
 
 def page(file, title, description, body, active=None, path=None):
-    canonical = SITE + (path if path is not None else '/' + file.replace('.html', ''))
+    canonical = SITE + (path if path is not None else '/' + file[:-len('.html')])
     if file == 'index.html':
         canonical = SITE + '/'
     html = f'''<!doctype html>
@@ -112,7 +114,9 @@ def page(file, title, description, body, active=None, path=None):
 </body>
 </html>
 '''
-    with open(os.path.join(OUT, file), 'w') as f:
+    target = os.path.join(OUT, file)
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    with open(target, 'w') as f:
         f.write(html)
 
 
@@ -152,6 +156,7 @@ QUOTE_FORM = f'''<aside class="quote-card" id="quote" aria-labelledby="quote-tit
     <p class="form-status" role="status" aria-live="polite"></p>
     <button class="btn btn-accent btn-block" type="submit">Send quote request</button>
     <p class="consent">By sending this request you agree that Insurance Capitol may call or text you at the number provided about your quote. Message and data rates may apply. Reply STOP to opt out of texts. We do not sell your information. <a href="/privacy">Privacy policy</a>.</p>
+    <p class="consent">Ready to give us everything at once? <a href="/apply">Start a full application</a>.</p>
   </form>
 </aside>'''
 
@@ -197,10 +202,11 @@ INDEX = f'''<section class="hero"><div class="wrap">
 </div></section>
 <section class="carrier-strip"><div class="wrap"><p class="eyebrow">CHOICE THROUGH OUR INSURANCE MARKETS</p><ul class="carriers"><li>Progressive</li><li>Travelers</li><li>The General</li><li>Paramount</li><li>BHHC</li><li>TAPCO</li></ul><p class="small">Availability varies by state, coverage and underwriting requirements.</p></div></section>
 <section class="section"><div class="wrap"><div class="section-head"><p class="eyebrow">COVERAGE FOR EVERY CHAPTER</p><h2>Protect what moves you.</h2><p>Explore your options. We’ll help you make sense of the details.</p></div>
-<div class="grid-3">
+<div class="grid-3 grid-4">
 <a class="coverage-card" href="/auto"><span class="card-number">01 / ON THE ROAD</span><h3>Auto insurance</h3><p>Everyday driving, financed vehicles and SR-22 filings. Find options for your situation.</p><span class="card-link">Explore auto coverage</span></a>
 <a class="coverage-card" href="/home-insurance"><span class="card-number">02 / AT HOME</span><h3>Home &amp; renters</h3><p>From your first apartment to your next home. Protect your space and what’s inside.</p><span class="card-link">Explore home coverage</span></a>
 <a class="coverage-card" href="/commercial"><span class="card-number">03 / IN BUSINESS</span><h3>Commercial</h3><p>Vehicles, operations and dealership inventory. Coverage built around how you work.</p><span class="card-link">Explore business coverage</span></a>
+<a class="coverage-card" href="/trucking"><span class="card-number">04 / ON THE HIGHWAY</span><h3>Commercial trucking</h3><p>Liability, cargo, physical damage and federal filings for motor carriers and owner-operators.</p><span class="card-link">Explore trucking coverage</span></a>
 </div></div></section>
 <section class="section dealer-feature"><div class="wrap grid-2"><div><p class="eyebrow">FOR DEALERSHIPS</p><h2>A smoother road<br>from approval to delivery.</h2><p class="lead">Connect the insurance step to your deal through RunTorque, with Insurance Capitol providing licensed insurance support.</p><a class="btn btn-accent" href="/dealers">Discover dealership support</a></div><ol class="steps"><li><h3>Share the details</h3><p>With customer consent, send the vehicle and driver information.</p></li><li><h3>Compare coverage</h3><p>Our team reviews available markets and prepares options.</p></li><li><h3>Get proof of insurance</h3><p>Once coverage is bound, documentation goes to the customer, dealer and lender.</p></li></ol></div></section>
 {license_band()}
@@ -234,6 +240,8 @@ AUTO = f'''<section class="page-head"><div class="wrap"><h1>Auto insurance</h1><
       </ul>
       <h2>Payments</h2>
       <p>Low down payment options are available from several carriers, with monthly, quarterly or paid-in-full plans. Payments are made directly to the carrier, by card, bank draft or in our office.</p>
+      <h2>Ready to apply</h2>
+      <p>The <a href="/apply/auto">auto application</a> collects every driver and vehicle in one pass so we can quote carriers without calling you back for details.</p>
     </div>
     <div>
       {QUOTE_FORM}
@@ -255,6 +263,8 @@ HOME = f'''<section class="page-head"><div class="wrap"><h1>Home, renters and co
       <p>Coverage for the interior of your unit and your belongings, matched to what your association's master policy already covers.</p>
       <h2>Lender and closing requirements</h2>
       <p>If you are closing on a home, send us the lender's insurance requirements and the closing date. We deliver the evidence of insurance to your lender or title company before closing.</p>
+      <h2>Ready to apply</h2>
+      <p>The <a href="/apply/home">home application</a> asks for the property details carriers rate on, so the first quote we send is the real one.</p>
     </div>
     <div>{QUOTE_FORM}</div>
   </div>
@@ -271,12 +281,55 @@ COMMERCIAL = f'''<section class="page-head"><div class="wrap"><h1>Commercial ins
       <p>Premises and operations coverage, with certificates of insurance issued to your customers or landlord on request.</p>
       <h2>Garage and dealer coverage</h2>
       <p>Garage liability, dealer open lot (physical damage on inventory), and dealer plates coverage for licensed dealers. We operate a dealership ourselves, so we know what the Texas DMV and your floorplan lender require.</p>
+      <h2>Trucking</h2>
+      <p>Tractors, semi trailers and for-hire operations are written on trucking programs with their own filings and limits. See <a href="/trucking">commercial trucking</a>.</p>
       <h2>How to get a commercial quote</h2>
-      <p>Use the form with "Commercial" selected and tell us the type of business, number of vehicles or employees, and any contract requirements. We will follow up for the details carriers need.</p>
+      <p>Use the form with "Commercial" selected for a quick callback, or go straight to the <a href="/apply/commercial-auto">commercial auto application</a> or <a href="/apply/general-liability">general liability application</a> and we will rate it the same business day.</p>
     </div>
     <div>{QUOTE_FORM}</div>
   </div>
 </section>
+{CTA}'''
+
+TRUCKING = f'''<section class="page-head"><div class="wrap"><h1>Commercial trucking insurance</h1><p>Liability, cargo, physical damage and the filings that keep your authority active. For motor carriers, owner-operators and new ventures based in Texas and New Mexico.</p></div></section>
+<section class="section">
+  <div class="wrap grid-2">
+    <div class="prose">
+      <h2>Coverages we place</h2>
+      <ul>
+        <li><strong>Auto liability</strong> at $750,000 or $1,000,000, with the MCS-90 endorsement and BMC-91X filing for interstate authority and Form E for intrastate.</li>
+        <li><strong>Motor truck cargo</strong> for the freight you haul, including reefer breakdown and debris removal where needed.</li>
+        <li><strong>Physical damage</strong> on tractors and trailers, with the lienholder listed.</li>
+        <li><strong>General liability</strong> for loading, unloading and premises exposure that shippers and brokers ask for.</li>
+        <li><strong>Non-trucking liability and bobtail</strong> for owner-operators leased to a carrier.</li>
+        <li><strong>Trailer interchange</strong> and <strong>occupational accident</strong> when your contracts require them.</li>
+      </ul>
+      <h2>Who we write</h2>
+      <ul>
+        <li>New ventures with authority pending or under one year</li>
+        <li>Owner-operators with one to five units, leased on or running their own authority</li>
+        <li>Small fleets in general freight, flatbed, reefer, auto hauling, dump and hot shot</li>
+        <li>Border and cross-dock operations in El Paso and Santa Teresa</li>
+      </ul>
+      <h2>What carriers will ask for</h2>
+      <p>USDOT and MC numbers, the equipment list with VINs and values, every driver's CDL and date of birth, three years of loss runs if you have been insured, and your radius and commodities. The <a href="/apply/trucking">trucking application</a> collects all of it in one pass.</p>
+      <p>Carriers run MVRs on every listed driver and check your FMCSA safety record. Tell us about violations up front; it changes which market we approach, not whether we can help.</p>
+    </div>
+    <div>
+      <div class="quote-card">
+        <header><h2>Start your trucking application</h2><p>About 15 minutes. Have your USDOT number, VINs and driver CDLs ready.</p></header>
+        <div class="app-cta">
+          <a class="btn btn-accent btn-block" href="/apply/trucking">Open the application</a>
+          <p class="small">Or call <a href="{PHONE_HREF}">{PHONE}</a> and we will take it over the phone.</p>
+        </div>
+      </div>
+      <div class="notice mt-md">
+        <strong>Filings.</strong> Federal filings (BMC-91X, MCS-90) are made by the carrier after the policy is bound, usually within one business day. Plan for that when you schedule your authority activation or a shipper onboarding date.
+      </div>
+    </div>
+  </div>
+</section>
+{license_band()}
 {CTA}'''
 
 DEALERS = f'''<section class="page-head"><div class="wrap"><h1>For dealerships</h1><p>Deliver cars with coverage already bound. Insurance Capitol is the licensed agency on the insurance step of the RunTorque platform.</p></div></section>
@@ -399,7 +452,9 @@ PRIVACY = f'''<section class="page-head"><div class="wrap"><h1>Privacy</h1><p>Ho
   <h2>Texting</h2>
   <p>If you give us a mobile number we may call or text you about your quote or policy. Reply STOP to any text to opt out.</p>
   <h2>Website</h2>
-  <p>Form submissions are processed by our hosting provider, Netlify, and delivered to our office. This site does not use advertising trackers. Please do not send Social Security numbers, payment information or identification documents through these website forms.</p>
+  <p>Form submissions are processed by our hosting provider, Netlify, and delivered to our office. This site does not use advertising trackers.</p>
+  <h2>Applications</h2>
+  <p>Insurance applications ask for the information carriers rate on: dates of birth, Social Security numbers where you have one, driver's license or CDL numbers, vehicle identification numbers, lienholders and loss history, and let you attach a copy of a license, registration or loss runs. Applications are sent over an encrypted connection to our secure system operated on the RunTorque platform, where Social Security numbers are stored encrypted and documents are kept in private storage. They are used only to quote and place coverage. Do not include payment card numbers; we collect payment information directly with the carrier when a policy is issued.</p>
   <h2>Questions</h2>
   <p>Call <a href="{PHONE_HREF}">{PHONE}</a> or write to Insurance Capitol, {ADDRESS}.</p>
 </div></section>'''
@@ -432,6 +487,15 @@ def main():
     page('commercial.html', 'Commercial insurance | Insurance Capitol',
          'Commercial auto, general liability, garage liability and dealer open lot coverage for small businesses and dealerships in Texas and New Mexico.',
          COMMERCIAL.replace('value="Commercial"', 'value="Commercial" checked', 1))
+    page('trucking.html', 'Commercial trucking insurance | Insurance Capitol',
+         'Trucking insurance for motor carriers and owner-operators in Texas and New Mexico: auto liability with MCS-90 and BMC-91X filings, motor truck cargo, physical damage, non-trucking liability.',
+         TRUCKING)
+    page('apply/index.html', 'Start an application | Insurance Capitol',
+         'Online insurance applications for personal auto, home, commercial auto, commercial trucking and general liability. Delivered to our El Paso office the moment you submit.',
+         render_index(PHONE_HREF, PHONE), active='apply/index.html', path='/apply')
+    for app in APPLICATIONS:
+        page(app['file'], f"{app['title']} | Insurance Capitol", app['intro'],
+             render_application(app, PHONE, PHONE_HREF), active='apply/index.html', path=app['path'])
     page('dealers.html', 'For dealerships | Insurance Capitol and RunTorque',
          'Insurance Capitol is the licensed agency on the insurance step of the RunTorque dealer-to-lender platform. Coverage bound before delivery, proof returned to dealer and lender.',
          DEALERS)
@@ -445,13 +509,15 @@ def main():
     page('privacy.html', 'Privacy | Insurance Capitol', 'How Insurance Capitol handles your information.', PRIVACY, active='index.html')
     page('404.html', 'Page not found | Insurance Capitol', 'Page not found.', NOT_FOUND, active='index.html', path='/404')
 
-    pages = ['', 'auto', 'home-insurance', 'commercial', 'dealers', 'customer-service', 'contact', 'privacy']
+    pages = ['', 'auto', 'home-insurance', 'commercial', 'trucking', 'dealers', 'customer-service', 'contact', 'privacy', 'apply']
+    pages += [app['path'].lstrip('/') for app in APPLICATIONS]
     with open(os.path.join(OUT, 'sitemap.xml'), 'w') as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
         for p in pages:
             f.write(f'  <url><loc>{SITE}/{p}</loc></url>\n')
         f.write('</urlset>\n')
-    print('built', len(os.listdir(OUT)), 'files in', OUT)
+    total = sum(len(files) for _, _, files in os.walk(OUT))
+    print('built', total, 'files in', OUT)
 
 
 if __name__ == '__main__':

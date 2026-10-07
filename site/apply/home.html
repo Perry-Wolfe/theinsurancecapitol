@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home, renters and condo application | Insurance Capitol</title>
+<meta name="description" content="Details about the property and the people living there. If you are closing on a home, include the closing date and your lender so the evidence of insurance is ready in time.">
+<link rel="canonical" href="https://www.theinsurancecapitol.com/apply/home">
+<link rel="icon" href="/logo-mark.png" type="image/png">
+<meta property="og:title" content="Home, renters and condo application | Insurance Capitol">
+<meta property="og:description" content="Details about the property and the people living there. If you are closing on a home, include the closing date and your lender so the evidence of insurance is ready in time.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.theinsurancecapitol.com/apply/home">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<meta name="theme-color" content="#071b3e">
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="utility"><div class="wrap"><span>Independent insurance. Personal attention.</span><span>Texas · New Mexico · California <span class="utility-language">/ Hablamos español</span></span></div></div>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/logo-mark.png" alt="Insurance Capitol" width="244" height="245"><div><b>Insurance<span>Capitol</span></b></div></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main"><a href="/auto">Auto</a><a href="/home-insurance">Home &amp; renters</a><a href="/commercial">Commercial</a><a href="/trucking">Trucking</a><a href="/dealers">Dealers</a><a href="/customer-service">Customer service</a><a href="/contact">Contact</a><a class="call" href="tel:+19157604411">Call 915-760-4411</a></nav>
+  </div>
+</header>
+<main id="main">
+<section class="page-head"><div class="wrap"><p class="eyebrow">APPLICATION</p><h1>Home, renters and condo application</h1><p>Details about the property and the people living there. If you are closing on a home, include the closing date and your lender so the evidence of insurance is ready in time.</p></div></section>
+<section class="section"><div class="wrap app-wrap">
+  <form class="app-form" name="application-home" method="POST" action="https://runtorque.ai/api/applications" enctype="multipart/form-data" data-intake data-success="/thank-you">
+    <input type="hidden" name="form-name" value="application-home">
+    <p class="hidden" aria-hidden="true"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
+    <fieldset class="app-section"><legend>Your contact information</legend><div class="app-grid"><div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" attrs="{&#x27;autocomplete&#x27;: &#x27;name&#x27;}" type="text" required></div><div class="field"><label for="f-phone">Mobile phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div><div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div><div class="field"><label for="f-language">Preferred language</label><select id="f-language" name="language"><option>English</option><option>Español</option></select></div><div class="field"><label for="f-address">Street address</label><input id="f-address" name="address" autocomplete="street-address" type="text" required></div><div class="field"><label for="f-city">City</label><input id="f-city" name="city" autocomplete="address-level2" type="text" required></div><div class="field"><label for="f-state">State</label><select id="f-state" name="state" required><option>TX</option><option>NM</option><option>CA</option><option>AZ</option><option>OK</option><option>LA</option><option>CO</option><option>Other</option></select></div><div class="field"><label for="f-zip">ZIP code</label><input id="f-zip" name="zip" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{5}" title="Five digit ZIP code" type="text" required></div></div></fieldset><fieldset class="app-section"><legend>Applicant</legend><div class="app-grid"><div class="field"><label for="f-dob">Date of birth</label><input id="f-dob" name="dob" type="date" required></div><div class="field"><label for="f-ssn">Social Security number <span class="hint">Used to rate the policy. Leave blank if you do not have one. Sent and stored encrypted.</span></label><input id="f-ssn" name="ssn" inputmode="numeric" autocomplete="off" pattern="[0-9]{3}-?[0-9]{2}-?[0-9]{4}" title="Nine digits, with or without dashes" spellcheck="false" type="text"></div><div class="field"><label for="f-co-applicant">Co-applicant name and date of birth</label><input id="f-co-applicant" name="co-applicant" type="text"></div><div class="field"><label for="f-co-applicant-ssn">Co-applicant Social Security number <span class="hint">Used to rate the policy. Leave blank if you do not have one. Sent and stored encrypted.</span></label><input id="f-co-applicant-ssn" name="co-applicant-ssn" inputmode="numeric" autocomplete="off" pattern="[0-9]{3}-?[0-9]{2}-?[0-9]{4}" title="Nine digits, with or without dashes" spellcheck="false" type="text"></div></div></fieldset><fieldset class="app-section"><legend>Property</legend><div class="app-grid"><div class="field"><label for="f-policy-type">Policy type</label><select id="f-policy-type" name="policy-type" required><option>Homeowners</option><option>Renters</option><option>Condo</option><option>Landlord (rental property)</option></select></div><div class="field"><label for="f-property-address">Property address, if different from above</label><input id="f-property-address" name="property-address" type="text"></div><div class="field"><label for="f-year-built">Year built</label><input id="f-year-built" name="year-built" inputmode="numeric" type="text"></div><div class="field"><label for="f-square-feet">Living area in square feet</label><input id="f-square-feet" name="square-feet" inputmode="numeric" type="text"></div><div class="field"><label for="f-construction">Construction</label><select id="f-construction" name="construction"><option>Frame</option><option>Brick or masonry</option><option>Stucco</option><option>Other</option></select></div><div class="field"><label for="f-roof">Roof type</label><select id="f-roof" name="roof"><option>Composition shingle</option><option>Tile</option><option>Metal</option><option>Flat or built-up</option><option>Other</option></select></div><div class="field"><label for="f-roof-age">Roof age in years</label><input id="f-roof-age" name="roof-age" inputmode="numeric" type="text"></div><div class="field"><label for="f-occupancy">Occupancy</label><select id="f-occupancy" name="occupancy"><option>Owner occupied</option><option>Tenant occupied</option><option>Vacant</option><option>Seasonal</option></select></div><div class="field"><label for="f-purchase-price">Purchase price or estimated value</label><input id="f-purchase-price" name="purchase-price" inputmode="numeric" type="text"></div><div class="field"><label for="f-contents-value">Estimated value of belongings</label><input id="f-contents-value" name="contents-value" inputmode="numeric" type="text"></div><div class="field"><label for="f-protective">Protective devices</label><select id="f-protective" name="protective"><option>None</option><option>Smoke detectors only</option><option>Monitored alarm</option><option>Monitored alarm and sprinklers</option></select></div><div class="field"><label for="f-dogs">Dogs on the property?</label><select id="f-dogs" name="dogs"><option>No</option><option>Yes</option></select></div><div class="field"><label for="f-dog-breeds">Dog breeds, if any</label><input id="f-dog-breeds" name="dog-breeds" type="text"></div><div class="field"><label for="f-pool">Swimming pool or trampoline?</label><select id="f-pool" name="pool"><option>No</option><option>Yes</option></select></div></div></fieldset><fieldset class="app-section"><legend>Mortgage and closing</legend><div class="app-grid"><div class="field"><label for="f-lender">Mortgage lender or landlord name</label><input id="f-lender" name="lender" type="text"></div><div class="field"><label for="f-lender-address">Lender address for the evidence of insurance</label><input id="f-lender-address" name="lender-address" type="text"></div><div class="field"><label for="f-loan-number">Loan number, if known</label><input id="f-loan-number" name="loan-number" type="text"></div><div class="field"><label for="f-closing-date">Closing or move-in date</label><input id="f-closing-date" name="closing-date" type="date"></div></div></fieldset><fieldset class="app-section"><legend>Claims and prior insurance</legend><div class="app-grid"><div class="field"><label for="f-claims">Property claims in the last 5 years <span class="hint">Date and type, or &quot;none&quot;</span></label><input id="f-claims" name="claims" type="text"></div><div class="field"><label for="f-prior-carrier">Current or most recent carrier</label><input id="f-prior-carrier" name="prior-carrier" type="text"></div><div class="field"><label for="f-desired-start">When do you need coverage to start?</label><input id="f-desired-start" name="desired-start" type="date" required></div><div class="field"><label for="f-bundle-auto">Would you like an auto quote too?</label><select id="f-bundle-auto" name="bundle-auto"><option>No</option><option>Yes</option></select></div></div></fieldset><fieldset class="app-section"><legend>Anything else</legend><div class="app-grid"><div class="field field-wide"><label for="f-notes">Notes for the agent</label><textarea id="f-notes" name="notes" rows="4"></textarea></div></div></fieldset>
+    <div class="app-submit">
+      <p class="form-status" role="status" aria-live="polite"></p>
+      <button class="btn btn-accent" type="submit">Submit application</button>
+      <p class="consent">By submitting you confirm the information is accurate to the best of your knowledge and agree that Insurance Capitol may call, text or email you about this application. Submitting does not bind coverage; a policy is in force only when a carrier issues it. Your application is sent over an encrypted connection to our secure system; Social Security numbers are stored encrypted. Do not include payment card numbers. <a href="/privacy">Privacy policy</a>.</p>
+    </div>
+  </form>
+  <aside class="app-aside">
+    <h2>Rather talk it through?</h2>
+    <p>Call or text <a href="tel:+19157604411">915-760-4411</a> and we will take the application over the phone. Hablamos español.</p>
+    <h2>What happens next</h2>
+    <ol>
+      <li>Your application is delivered to our office the moment you submit, over an encrypted connection.</li>
+      <li>We rate it with the carriers that fit and call you with options, usually the same business day.</li>
+      <li>You choose, make the down payment with the carrier, and we send proof of insurance to you and your lender.</li>
+    </ol>
+  </aside>
+</div></section>
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="footer-logo" href="/"><img src="/logo.png" alt="Insurance Capitol" width="244" height="245"></a>
+        <address class="addr">6354 N Mesa St, El Paso, TX 79912<br><a href="tel:+19157604411">915-760-4411</a><br>Fax 915-581-3900</address>
+        <p class="foot-note">Hablamos español.</p>
+      </div>
+      <div>
+        <h3>Insurance</h3>
+        <ul><li><a href="/auto">Auto</a></li><li><a href="/home-insurance">Home and renters</a></li><li><a href="/commercial">Commercial</a></li><li><a href="/trucking">Commercial trucking</a></li><li><a href="/apply">Start an application</a></li></ul>
+      </div>
+      <div>
+        <h3>Help</h3>
+        <ul><li><a href="/customer-service">Customer service</a></li><li><a href="/contact">Contact</a></li><li><a href="/privacy">Privacy</a></li></ul>
+      </div>
+      <div>
+        <h3>Partners</h3>
+        <ul><li><a href="/dealers">For dealerships</a></li><li><a href="https://runtorque.ai" rel="noopener">RunTorque</a></li></ul>
+      </div>
+    </div>
+    <div class="legal">
+      <p>Insurance Capitol is a d/b/a of Mesa Motors LLC, a Texas general lines agency, property and casualty, license 3216657 (NPN 21285254). Perry T. Wolfe, licensed producer: Texas 3186385, New Mexico 21216112, California 4442693. In California the agency does business as Insurance Capitol Services.</p>
+      <p>Coverage is underwritten by the carrier named on your policy and is subject to that carrier's eligibility, underwriting and terms. Quotes are estimates until a carrier issues the policy. Insurance Capitol is the agency of record on policies quoted or bound through the RunTorque platform; RunTorque (Torque.ai Incorporated) is a software platform and does not sell insurance.</p>
+      <p>&copy; <span data-year>2026</span> Mesa Motors LLC d/b/a Insurance Capitol. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<script src="/site.js" defer></script>
+</body>
+</html>
