@@ -1,0 +1,72 @@
+# Insurance Capitol static site. build.py writes the pages into ./site, which Netlify publishes.
+
+[build]
+  publish = "site"
+  command = "python3 build.py"
+
+# Serve /auto for auto.html and drop trailing .html everywhere.
+[build.processing.html]
+  pretty_urls = true
+
+[[redirects]]
+  from = "/quote"
+  to = "/#quote"
+  status = 301
+
+[[redirects]]
+  from = "/quote.html"
+  to = "/#quote"
+  status = 301
+
+# Old EZLynx site addresses still in search results and bookmarks.
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/compare-quotes.html"
+  to = "/#quote"
+  status = 301
+
+[[redirects]]
+  from = "/commercial-insurance.html"
+  to = "/commercial"
+  status = 301
+
+[[redirects]]
+  from = "/customer-service.html"
+  to = "/customer-service"
+  status = 301
+
+[[redirects]]
+  from = "/contact-us.html"
+  to = "/contact"
+  status = 301
+
+# Canonical host: everything on www.
+[[redirects]]
+  from = "https://theinsurancecapitol.com/*"
+  to = "https://www.theinsurancecapitol.com/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Content-Security-Policy = "default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
+
+[[headers]]
+  for = "/styles.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
