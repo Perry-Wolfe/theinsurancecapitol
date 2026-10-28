@@ -581,6 +581,29 @@ a:hover {
 .quote-card form {
   padding: 8px 28px 28px;
 }
+.quote-trucking {
+  padding: 4px 28px 28px;
+}
+.quote-trucking .trucking-note {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+.quote-trucking form {
+  padding: 18px 0 0;
+}
+.quote-trucking .app-section {
+  padding: 18px 16px 20px;
+}
+.quote-trucking .app-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+.quote-trucking .app-section legend {
+  font-size: 17px;
+}
+.quote-trucking [data-trucking-back] {
+  scroll-margin-top: 115px;
+}
 .field input, .field select, .field textarea {
   background: #f9fbfd;
   border-radius: 5px;

@@ -67,6 +67,47 @@
     sync();
   });
 
+  // A field shown only when another field has a given value (data-show-if="name=value").
+  document.querySelectorAll('[data-show-if]').forEach(block => {
+    const form = block.closest('form');
+    const [name, value] = block.getAttribute('data-show-if').split('=');
+    const source = form.querySelector(`[name="${name}"]`);
+    const sync = () => {
+      const on = !source.disabled && source.value === value;
+      block.classList.toggle('js-hidden', !on);
+      block.querySelectorAll('input, select, textarea').forEach(field => { field.disabled = !on; });
+    };
+    form.addEventListener('change', sync);
+    sync();
+  });
+
+  // Choosing trucking on the quick quote swaps in the full trucking application,
+  // carrying over what was already typed.
+  document.querySelectorAll('[data-trucking]').forEach(panel => {
+    const card = panel.closest('.quote-card');
+    const quick = card.querySelector('form[name="application-quote"]');
+    const type = quick.querySelector('[name="business-type"]');
+    const app = panel.querySelector('form');
+    const carry = { name: 'contact-name', phone: 'phone', email: 'email', zip: 'zip', 'business-name': 'business-name', 'prior-expiration': 'prior-expiration', usdot: 'usdot' };
+    const show = trucking => {
+      panel.hidden = !trucking;
+      quick.hidden = trucking;
+      if (!trucking) return;
+      Object.entries(carry).forEach(([from, to]) => {
+        const source = quick.querySelector(`[name="${from}"]`);
+        const target = app.querySelector(`[name="${to}"]`);
+        if (source && target && source.value && !target.value) target.value = source.value;
+      });
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    type.addEventListener('change', () => show(type.value.startsWith('Trucking')));
+    panel.querySelector('[data-trucking-back]').addEventListener('click', () => {
+      type.value = '';
+      show(false);
+      type.focus();
+    });
+  });
+
   // Every form posts to the RunTorque intake endpoint (data-intake), which stores
   // the request, emails the office and answers with JSON.
   document.querySelectorAll('form[data-intake]').forEach(form => {

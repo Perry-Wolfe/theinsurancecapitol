@@ -5,7 +5,7 @@ Output: ./site (what gets deployed)
 """
 import os, shutil
 from html import escape
-from applications import APPLICATIONS, INTAKE_URL, render_application, render_index
+from applications import APPLICATIONS, INTAKE_URL, TRUCKING_APP, render_application, render_form, render_index
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, 'src')
@@ -139,10 +139,23 @@ QUOTE_FORM = f'''<aside class="quote-card" id="quote" aria-labelledby="quote-tit
     </fieldset>
     <fieldset class="commercial-extra js-hidden" data-show-when="Commercial">
       <legend>About the business</legend>
-      <div class="row-2">
-        <div class="field"><label for="q-business">Business name</label><input id="q-business" name="business-name" autocomplete="organization"></div>
-        <div class="field"><label for="q-operations">What the business does</label><input id="q-operations" name="operations" placeholder="Plumbing, delivery, trucking"></div>
+      <div class="field"><label for="q-btype">What does your business do?</label>
+        <select id="q-btype" name="business-type" required>
+          <option value="">Choose one</option>
+          <option>Trucking (semis or trucks hauling for hire)</option>
+          <option>Contractor or construction</option>
+          <option>Landscaping or lawn care</option>
+          <option>Restaurant, food truck or catering</option>
+          <option>Delivery or courier</option>
+          <option>Retail store</option>
+          <option>Auto dealer or repair shop</option>
+          <option>Cleaning or janitorial</option>
+          <option>Professional office</option>
+          <option>Other</option>
+        </select>
       </div>
+      <div class="field js-hidden" data-show-if="business-type=Other"><label for="q-bother">Type of business</label><input id="q-bother" name="business-type-other" required></div>
+      <div class="field"><label for="q-business">Business name</label><input id="q-business" name="business-name" autocomplete="organization"></div>
       <div class="row-2">
         <div class="field"><label for="q-units">Number of vehicles</label><input id="q-units" name="vehicle-count" inputmode="numeric"></div>
         <div class="field"><label for="q-vtype">Vehicle types</label><input id="q-vtype" name="vehicle-types" placeholder="Pickups, box trucks, tractors"></div>
@@ -174,6 +187,11 @@ QUOTE_FORM = f'''<aside class="quote-card" id="quote" aria-labelledby="quote-tit
     <p class="consent">By sending this request you agree that Insurance Capitol may call or text you at the number provided about your quote. Message and data rates may apply. Reply STOP to opt out of texts. We do not sell your information. <a href="/privacy">Privacy policy</a>.</p>
     <p class="consent">Ready to give us everything at once? <a href="/apply">Start a full application</a>.</p>
   </form>
+  <div class="quote-trucking" data-trucking hidden>
+    <p class="trucking-note">Trucking carriers need your authority, equipment and drivers to quote. Fill in the trucking application below and we can quote you on the first try. What you already entered is filled in for you.</p>
+    <button type="button" class="btn btn-outline btn-sm" data-trucking-back>Back to the quick quote</button>
+    {render_form(TRUCKING_APP)}
+  </div>
 </aside>'''
 
 

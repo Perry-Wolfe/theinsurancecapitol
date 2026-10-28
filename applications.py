@@ -391,11 +391,10 @@ def render_section(sec):
     return f'<fieldset class="app-section" data-repeat="{slug}"><legend>{escape(sec["title"])}</legend>{intro}{"".join(rows)}{add}</fieldset>'
 
 
-def render_application(app, phone, phone_href):
+def render_form(app):
+    """The application form alone, used on its own page and inside the quick quote card."""
     sections = ''.join(render_section(s) for s in app['sections'])
-    return f'''<section class="page-head"><div class="wrap"><p class="eyebrow">APPLICATION</p><h1>{escape(app["title"])}</h1><p>{escape(app["intro"])}</p></div></section>
-<section class="section"><div class="wrap app-wrap">
-  <form class="app-form" name="{app["form"]}" method="POST" action="{INTAKE_URL}" enctype="multipart/form-data" data-intake data-success="/thank-you">
+    return f'''<form class="app-form" name="{app["form"]}" method="POST" action="{INTAKE_URL}" enctype="multipart/form-data" data-intake data-success="/thank-you">
     <input type="hidden" name="form-name" value="{app["form"]}">
     <p class="hidden" aria-hidden="true"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
     {sections}
@@ -404,7 +403,13 @@ def render_application(app, phone, phone_href):
       <button class="btn btn-accent" type="submit">Submit application</button>
       <p class="consent">By submitting you confirm the information is accurate to the best of your knowledge and agree that Insurance Capitol may call, text or email you about this application. Submitting does not bind coverage; a policy is in force only when a carrier issues it. Your application is sent over an encrypted connection to our secure system; Social Security numbers are stored encrypted. Do not include payment card numbers. <a href="/privacy">Privacy policy</a>.</p>
     </div>
-  </form>
+  </form>'''
+
+
+def render_application(app, phone, phone_href):
+    return f'''<section class="page-head"><div class="wrap"><p class="eyebrow">APPLICATION</p><h1>{escape(app["title"])}</h1><p>{escape(app["intro"])}</p></div></section>
+<section class="section"><div class="wrap app-wrap">
+  {render_form(app)}
   <aside class="app-aside">
     <h2>Rather talk it through?</h2>
     <p>Call or text <a href="{phone_href}">{phone}</a> and we will take the application over the phone. Hablamos español.</p>
