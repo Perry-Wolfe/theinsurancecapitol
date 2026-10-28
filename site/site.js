@@ -27,15 +27,19 @@
   document.querySelectorAll('[data-year]').forEach(el => { el.textContent = String(new Date().getFullYear()); });
 
   // Repeatable application rows: every row exists in the HTML; rows after the
-  // first are hidden until added. Removing a row clears it and hides it again.
+  // first are hidden until added. Hidden rows are disabled so their default
+  // select values are not submitted. Removing a row clears it and hides it again.
   document.querySelectorAll('[data-repeat]').forEach(group => {
     const rows = [...group.querySelectorAll('[data-row]')];
     const add = group.querySelector('[data-add]');
+    const setEnabled = (row, on) => row.querySelectorAll('input, select, textarea').forEach(field => { field.disabled = !on; });
     const refresh = () => { add.hidden = rows.every(row => !row.classList.contains('js-hidden')); };
+    rows.forEach(row => setEnabled(row, !row.classList.contains('js-hidden')));
     add.addEventListener('click', () => {
       const next = rows.find(row => row.classList.contains('js-hidden'));
       if (!next) return;
       next.classList.remove('js-hidden');
+      setEnabled(next, true);
       next.querySelector('input, select, textarea').focus();
       refresh();
     });
@@ -47,6 +51,7 @@
           if (field.tagName === 'SELECT') field.selectedIndex = 0; else field.value = '';
         });
         row.classList.add('js-hidden');
+        setEnabled(row, false);
         refresh();
         add.focus();
       });
