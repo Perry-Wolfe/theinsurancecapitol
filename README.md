@@ -2,7 +2,7 @@
 
 Static agency website for Insurance Capitol (Mesa Motors LLC d/b/a Insurance Capitol), El Paso, Texas.
 Navy, white and red brand system; personal, commercial and trucking coverage pages; dealership page;
-customer service; a quick quote form (Netlify Forms) and five full insurance applications that post to the
+customer service; a quick quote form, a contact form and five full insurance applications, all posting to the
 RunTorque intake endpoint.
 
 ## Source
@@ -26,7 +26,8 @@ RunTorque intake endpoint.
 
 ## Forms
 
-- `quote` and `contact` are Netlify Forms; delivery is configured in the Netlify dashboard (DEPLOY.md).
+- The quick quote (`application-quote`) and contact form (`application-contact`) post to the same RunTorque
+  intake as the applications. Checking Commercial on the quick quote reveals business and vehicle questions.
 - The five applications (`application-auto`, `application-home`, `application-commercial-auto`,
   `application-trucking`, `application-general-liability`) post multipart to the RunTorque intake endpoint,
   which stores the application, encrypts Social Security numbers, keeps documents in private storage and

@@ -54,17 +54,29 @@
     refresh();
   });
 
-  // Quote and contact forms post to Netlify Forms. Application forms post to the
-  // RunTorque intake endpoint (data-intake), which answers with JSON.
-  document.querySelectorAll('form[data-netlify], form[data-intake]').forEach(form => {
+  // Sections shown only when a coverage choice is checked (commercial details on the quote form).
+  document.querySelectorAll('[data-show-when]').forEach(block => {
+    const form = block.closest('form');
+    const value = block.getAttribute('data-show-when');
+    const sync = () => {
+      const on = [...form.querySelectorAll('[name="coverage"]')].some(input => input.checked && input.value === value);
+      block.classList.toggle('js-hidden', !on);
+      block.querySelectorAll('input, select, textarea').forEach(field => { field.disabled = !on; });
+    };
+    form.addEventListener('change', sync);
+    sync();
+  });
+
+  // Every form posts to the RunTorque intake endpoint (data-intake), which stores
+  // the request, emails the office and answers with JSON.
+  document.querySelectorAll('form[data-intake]').forEach(form => {
     const status = form.querySelector('.form-status');
     const submit = form.querySelector('button[type="submit"]');
     const method = form.querySelector('[name="contact-preference"]');
     const email = form.querySelector('[name="email"]');
     const choices = [...form.querySelectorAll('[name="coverage"]')];
-    const intake = form.hasAttribute('data-intake');
-    const target = intake ? form.getAttribute('action') : '/';
-    const success = intake ? form.getAttribute('data-success') : form.getAttribute('action');
+    const target = form.getAttribute('action');
+    const success = form.getAttribute('data-success');
 
     const validateChoices = () => {
       if (choices.length) choices[0].setCustomValidity(choices.some(input => input.checked) ? '' : 'Please select at least one coverage type.');
@@ -87,15 +99,11 @@
       form.setAttribute('aria-busy', 'true');
       try {
         const response = await fetch(target, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-        if (intake) {
-          const data = await response.json().catch(() => ({}));
-          if (!response.ok || !data.ok) throw new Error(data.error || 'Submission failed');
-        } else if (!response.ok) {
-          throw new Error('Submission failed');
-        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || 'Submission failed');
         location.assign(success);
       } catch (error) {
-        const detail = intake && error.message && error.message !== 'Submission failed' ? ` ${error.message}.` : '';
+        const detail = error.message && error.message !== 'Submission failed' ? ` ${error.message}.` : '';
         status.textContent = `Your request could not be sent.${detail} Please try again or call 915-760-4411.`;
         submit.disabled = false;
         submit.textContent = original;

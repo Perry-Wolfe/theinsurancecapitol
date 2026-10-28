@@ -179,17 +179,22 @@ COMMERCIAL_VEHICLE_FIELDS = [
     text('value', 'Stated value', inputmode='numeric'),
     select('ownership', 'Ownership', ['Owned', 'Financed', 'Leased'], True),
     text('lienholder', 'Lienholder or lessor'),
+    select('use', 'How the vehicle is used', ['Service (drives to job sites)', 'Commercial (hauls goods or materials)', 'Retail delivery', 'Employee or sales travel'], True),
     select('radius', 'Operating radius', ['Local, under 50 miles', 'Intermediate, 50 to 200 miles', 'Long haul, over 200 miles'], True),
+    text('garaging-zip', 'ZIP code where it is parked overnight', True, inputmode='numeric', pattern='[0-9]{5}', title='Five digit ZIP code'),
     select('coverage', 'Coverage wanted', ['Liability and physical damage', 'Liability only'], True),
+    select('deductible', 'Comprehensive and collision deductible', ['$500', '$1,000', '$2,500', 'Not sure']),
 ]
 
 COMMERCIAL_DRIVER_FIELDS = [
     text('name', 'Full legal name', True),
     text('dob', 'Date of birth', True, type='date'),
     ssn(),
-    text('license-number', 'Driver\'s license number'),
-    select('license-state', 'License state', STATES, True),
+    select('license-type', 'License type', ['Texas or other US license', 'CDL', 'Mexican license (licencia federal or estatal)', 'Other foreign license'], True),
+    text('license-number', 'Driver\'s license number', True),
+    select('license-state', 'License state or country', STATES + ['Mexico'], True),
     text('years-experience', 'Years of commercial driving experience', inputmode='numeric'),
+    text('hire-date', 'Date of hire', type='date'),
     text('violations', 'Tickets or accidents in the last 3 years', hint='Date and type, or "none"'),
 ]
 
@@ -204,6 +209,9 @@ COMMERCIAL_AUTO_APP = {
         BUSINESS,
         section('Operations', [
             text('operations', 'What does the business do?', True, hint='Plumbing contractor, landscaping, food delivery, dealership'),
+            text('usdot', 'USDOT number, if any', inputmode='numeric', hint='Required for vehicles over 26,000 lbs or hauling for hire'),
+            select('filings', 'State or federal filings needed?', ['None', 'TxDMV (Texas intrastate)', 'MCS-90 / federal', 'Not sure'], hint='Your DOT or permit office will tell you'),
+            select('radius-overall', 'Where do the vehicles go?', ['El Paso area only', 'Texas and New Mexico', 'Several states', 'Into Mexico']),
             text('employees', 'Number of employees', inputmode='numeric'),
             text('revenue', 'Annual revenue', inputmode='numeric'),
             select('hired-nonowned', 'Need hired and non-owned auto coverage?', YES_NO, hint='Employees driving their own vehicles for work, or rented vehicles'),

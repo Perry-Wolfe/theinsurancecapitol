@@ -50,13 +50,14 @@
     </div>
     <div class="quote-card">
       <header><h2>Send a message</h2><p>For quotes, use the quote form. For anything else, this reaches the office directly.</p></header>
-      <form name="contact" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="company">
-        <input type="hidden" name="form-name" value="contact">
+      <form name="application-contact" method="POST" action="https://runtorque.ai/api/applications" enctype="multipart/form-data" data-intake data-success="/thank-you">
+        <input type="hidden" name="form-name" value="application-contact">
         <p class="hidden" aria-hidden="true"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
         <div class="row-2">
           <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" required></div>
-          <div class="field"><label for="c-phone">Phone or email</label><input id="c-phone" name="contact" required></div>
+          <div class="field"><label for="c-phone">Phone</label><input id="c-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
         </div>
+        <div class="field"><label for="c-email">Email <span class="hint">(optional)</span></label><input id="c-email" name="email" type="email" autocomplete="email"></div>
         <div class="field"><label for="c-topic">Topic</label>
           <select id="c-topic" name="topic">
             <option>Existing policy</option><option>Dealership partnership</option><option>Carrier appointment or integration</option><option>Other</option>

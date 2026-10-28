@@ -61,8 +61,8 @@
     <h2 id="quote-title">Request a quote</h2>
     <p>Tell us what you need. Our team will help you compare available coverage.</p>
   </header>
-  <form name="quote" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="company">
-    <input type="hidden" name="form-name" value="quote">
+  <form name="application-quote" method="POST" action="https://runtorque.ai/api/applications" enctype="multipart/form-data" data-intake data-success="/thank-you">
+    <input type="hidden" name="form-name" value="application-quote">
     <p class="hidden" aria-hidden="true"><label>Company <input name="company" tabindex="-1" autocomplete="off"></label></p>
     <fieldset class="choices">
       <legend>What do you need covered? <span class="hint">Select all that apply</span></legend>
@@ -72,6 +72,22 @@
         <label><input type="checkbox" name="coverage" value="Home or renters"> Home or renters</label>
         <label><input type="checkbox" name="coverage" value="Commercial"> Commercial</label>
       </div>
+    </fieldset>
+    <fieldset class="commercial-extra js-hidden" data-show-when="Commercial">
+      <legend>About the business</legend>
+      <div class="row-2">
+        <div class="field"><label for="q-business">Business name</label><input id="q-business" name="business-name" autocomplete="organization"></div>
+        <div class="field"><label for="q-operations">What the business does</label><input id="q-operations" name="operations" placeholder="Plumbing, delivery, trucking"></div>
+      </div>
+      <div class="row-2">
+        <div class="field"><label for="q-units">Number of vehicles</label><input id="q-units" name="vehicle-count" inputmode="numeric"></div>
+        <div class="field"><label for="q-vtype">Vehicle types</label><input id="q-vtype" name="vehicle-types" placeholder="Pickups, box trucks, tractors"></div>
+      </div>
+      <div class="row-2">
+        <div class="field"><label for="q-dot">USDOT number <span class="hint">(if any)</span></label><input id="q-dot" name="usdot" inputmode="numeric"></div>
+        <div class="field"><label for="q-renew">Current policy renews</label><input id="q-renew" name="prior-expiration" type="date"></div>
+      </div>
+      <p class="consent">For the fastest commercial quote, use the full <a href="/apply/commercial-auto">commercial auto</a> or <a href="/apply/trucking">trucking</a> application with VINs and drivers.</p>
     </fieldset>
     <div class="row-2">
       <div class="field"><label for="q-name">Full name</label><input id="q-name" name="name" autocomplete="name" required></div>
